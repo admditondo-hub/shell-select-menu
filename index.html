@@ -113,14 +113,14 @@ tailwind.config = {
 
   <!-- Filtros -->
   <div class="sticky top-[108px] z-30 py-1 bg-select-bg/90 glass-effect -mx-4 px-4 border-b border-zinc-800">
-    <div class="flex space-x-2 overflow-x-auto no-scrollbar py-1">
-      <button onclick="setCategory('all')" id="btn-cat-all" class="cat-btn bg-select-amber text-zinc-950 font-bold text-xs px-4 py-2 rounded-xl whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
+    <div class="flex space-x-1.5 overflow-x-auto no-scrollbar py-1">
+      <button onclick="setCategory('all')" id="btn-cat-all" class="cat-btn bg-select-amber text-zinc-950 font-bold text-xs px-3 py-2 rounded-xl whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
         <i class="fa-solid fa-border-all"></i> Todos
       </button>
-      <button onclick="setCategory('cocina')" id="btn-cat-cocina" class="cat-btn bg-zinc-900 text-zinc-300 font-semibold text-xs px-4 py-2 rounded-xl whitespace-nowrap border border-zinc-800 transition-all flex items-center gap-1.5">
+      <button onclick="setCategory('cocina')" id="btn-cat-cocina" class="cat-btn bg-zinc-900 text-zinc-300 font-semibold text-xs px-3 py-2 rounded-xl whitespace-nowrap border border-zinc-800 transition-all flex items-center gap-1.5">
         <i class="fa-solid fa-utensils text-select-amber"></i> Cocina & Minutas
       </button>
-      <button onclick="setCategory('24hs')" id="btn-cat-24hs" class="cat-btn bg-zinc-900 text-zinc-300 font-semibold text-xs px-4 py-2 rounded-xl whitespace-nowrap border border-zinc-800 transition-all flex items-center gap-1.5">
+      <button onclick="setCategory('24hs')" id="btn-cat-24hs" class="cat-btn bg-zinc-900 text-zinc-300 font-semibold text-xs px-3 py-2 rounded-xl whitespace-nowrap border border-zinc-800 transition-all flex items-center gap-1.5">
         <i class="fa-solid fa-clock text-amber-500"></i> Promos 24hs & Cafetería
       </button>
     </div>
@@ -444,9 +444,9 @@ function renderProducts() {
     let outOfHoursNotice = '';
     if (outOfHours) {
       outOfHoursNotice = `
-        <div class="bg-red-950/40 border border-red-900/60 rounded-xl p-2 text-[11px] text-red-300 flex items-center gap-2">
-          <i class="fa-solid fa-triangle-exclamation text-red-400 text-sm"></i>
-          <span><b>Fuera de Horario de Cocina</b> (Disponible en su turno)</span>
+        <div class="bg-red-950/40 border border-red-900/60 rounded-xl p-2 text-[11px] text-red-300 flex items-start gap-2">
+          <i class="fa-solid fa-triangle-exclamation text-red-400 text-sm mt-0.5 shrink-0"></i>
+          <span><b>Fuera de Horario de Cocina</b> — Mediodía: Lun a Vie 12:00 a 14:30 hs | Noche: Mié a Dom 20:00 a 00:00 hs</span>
         </div>
       `;
     }
@@ -509,11 +509,11 @@ function renderProducts() {
 function setCategory(cat) {
   currentCategory = cat;
   document.querySelectorAll('.cat-btn').forEach(btn => {
-    btn.className = 'cat-btn bg-zinc-900 text-zinc-300 font-semibold text-xs px-4 py-2 rounded-xl whitespace-nowrap border border-zinc-800 transition-all flex items-center gap-1.5';
+    btn.className = 'cat-btn bg-zinc-900 text-zinc-300 font-semibold text-xs px-3 py-2 rounded-xl whitespace-nowrap border border-zinc-800 transition-all flex items-center gap-1.5';
   });
   const activeBtn = document.getElementById(`btn-cat-${cat}`);
   if (activeBtn) {
-    activeBtn.className = 'cat-btn bg-select-amber text-zinc-950 font-bold text-xs px-4 py-2 rounded-xl whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5';
+    activeBtn.className = 'cat-btn bg-select-amber text-zinc-950 font-bold text-xs px-3 py-2 rounded-xl whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5';
   }
   
   const labels = {
