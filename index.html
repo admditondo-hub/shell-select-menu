@@ -213,6 +213,18 @@ const products = [
     hours: "Horario Cocina Select"
   },
   {
+    id: 14,
+    name: "Gramajo Especial Select",
+    category: "cocina",
+    badge: "Horario Cocina",
+    portionTag: "¡Ideal para Compartir!",
+    badgeType: "amber",
+    imageName: "gramajo.jpeg",
+    description: "Una combinación súper abundante y tentadora con papas fritas, huevo, provoleta, carne desmechada con cebolla y morrón, queso cheddar, salsa barbacoa y verdeo. Ideal para compartir.",
+    includes: ["Papas fritas, huevo & provoleta", "Carne desmechada, cebolla y morrón", "Queso cheddar, barbacoa y verdeo"],
+    hours: "Horario Cocina Select"
+  },
+  {
     id: 4,
     name: "Sándwich de Milanesa Completo",
     category: "cocina",
@@ -331,23 +343,12 @@ const products = [
     description: "Nuestra especialidad gratinada más tentadora de cafetería: un sándwich súper cremoso y gratinado con tres quesos, acompañado con café grande.",
     includes: ["Salsa blanca, jamón y queso Dambo", "Quesos Dambo, mozzarella y provolone", "Café o cappuccino grande"],
     hours: "Servicio Express Select 24hs"
-  },
-  {
-    id: 14,
-    name: "Gramajo Especial Select",
-    category: "cocina",
-    badge: "Horario Cocina",
-    portionTag: "¡Ideal para Compartir!",
-    badgeType: "amber",
-    imageName: "gramajo.jpeg",
-    description: "Una combinación súper abundante y tentadora con papas fritas, huevo, provoleta, carne desmechada con cebolla y morrón, queso cheddar, salsa barbacoa y verdeo. Ideal para compartir.",
-    includes: ["Papas fritas, huevo & provoleta", "Carne desmechada, cebolla y morrón", "Queso cheddar, barbacoa y verdeo"],
-    hours: "Horario Cocina Select"
   }
 ];
 
 // Asegurar que cada producto comience con 0 votos si no tiene registro previo
-products.forEach(p => {
+products.forEach((p, idx) => {
+  p.originalIndex = idx;
   if (!ratings[p.id]) {
     ratings[p.id] = { votes: 0, score: 5.0 };
   }
@@ -394,13 +395,20 @@ function renderProducts() {
   const emptyState = document.getElementById('emptyState');
   const kitchenOpen = isKitchenOpen();
   
-  const filtered = products.filter(p => {
-    const matchesCategory = (currentCategory === 'all') || (p.category === currentCategory);
-    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          p.includes.some(inc => inc.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesCategory && matchesSearch;
-  });
+  const filtered = products
+    .filter(p => {
+      const matchesCategory = (currentCategory === 'all') || (p.category === currentCategory);
+      const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            p.includes.some(inc => inc.toLowerCase().includes(searchQuery.toLowerCase()));
+      return matchesCategory && matchesSearch;
+    })
+    .sort((a, b) => {
+      const votesA = (ratings[a.id] && ratings[a.id].votes) || 0;
+      const votesB = (ratings[b.id] && ratings[b.id].votes) || 0;
+      if (votesB !== votesA) return votesB - votesA;
+      return a.originalIndex - b.originalIndex;
+    });
 
   document.getElementById('productCount').innerText = `${filtered.length} opciones`;
 
